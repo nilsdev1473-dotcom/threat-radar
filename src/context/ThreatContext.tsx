@@ -1,22 +1,42 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
-import type { ThreatZone } from '@/data/threats'
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react'
+import { threats } from '@/data/threats'
+import type { ThreatZone, Severity, Region, ThreatType } from '@/data/threats'
+
+export type RegionFilter = Region | 'All'
+export type SeverityFilter = Severity | 'All'
+export type ThreatTypeFilter = ThreatType | 'All'
+
+interface Filters {
+  region: RegionFilter
+  severity: SeverityFilter
+  threatType: ThreatTypeFilter
+}
 
 interface ThreatContextValue {
   selectedThreat: ThreatZone | null
   setSelectedThreat: (threat: ThreatZone | null) => void
   clearSelection: () => void
+  filters: Filters
+  setRegionFilter: (r: RegionFilter) => void
+  setSeverityFilter: (s: SeverityFilter) => void
+  setThreatTypeFilter: (t: ThreatTypeFilter) => void
+  filteredThreats: ThreatZone[]
 }
 
 const ThreatContext = createContext<ThreatContextValue | null>(null)
 
 export function ThreatProvider({ children }: { children: ReactNode }) {
-  const [selectedThreat, setSelectedThreat] = useState<ThreatZone | null>(null)
+  const [selectedThreat, setSelectedThreatState] = useState<ThreatZone | null>(null)
+  const [filters, setFilters] = useState<Filters>({
+    region: 'All',
+    severity: 'All',
+    threatType: 'All',
+  })
 
-  const clearSelection = useCallback(() => setSelectedThreat(null), [])
+  const clearSelection = useCallback(() => setSelectedThreatState(null), [])
 
-  // Escape key clears selection
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') clearSelection()
@@ -25,17 +45,41 @@ export function ThreatProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [clearSelection])
 
-  const handleSetSelectedThreat = useCallback(
-    (threat: ThreatZone | null) => {
-      // clicking the same marker deselects it
-      setSelectedThreat((prev) => (prev?.id === threat?.id ? null : threat))
-    },
-    []
-  )
+  const setSelectedThreat = useCallback((threat: ThreatZone | null) => {
+    setSelectedThreatState((prev) => (prev?.id === threat?.id ? null : threat))
+  }, [])
+
+  const setRegionFilter = useCallback((r: RegionFilter) => {
+    setFilters((f) => ({ ...f, region: r }))
+  }, [])
+  const setSeverityFilter = useCallback((s: SeverityFilter) => {
+    setFilters((f) => ({ ...f, severity: s }))
+  }, [])
+  const setThreatTypeFilter = useCallback((t: ThreatTypeFilter) => {
+    setFilters((f) => ({ ...f, threatType: t }))
+  }, [])
+
+  const filteredThreats = useMemo(() => {
+    return threats.filter((t) => {
+      if (filters.region !== 'All' && t.region !== filters.region) return false
+      if (filters.severity !== 'All' && t.severity !== filters.severity) return false
+      if (filters.threatType !== 'All' && !t.threatTypes.includes(filters.threatType)) return false
+      return true
+    })
+  }, [filters])
 
   return (
     <ThreatContext.Provider
-      value={{ selectedThreat, setSelectedThreat: handleSetSelectedThreat, clearSelection }}
+      value={{
+        selectedThreat,
+        setSelectedThreat,
+        clearSelection,
+        filters,
+        setRegionFilter,
+        setSeverityFilter,
+        setThreatTypeFilter,
+        filteredThreats,
+      }}
     >
       {children}
     </ThreatContext.Provider>

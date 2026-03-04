@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 import { alerts } from '@/data/alerts'
+import { useThreat } from '@/context/ThreatContext'
 import type { Severity } from '@/data/threats'
 
 const SEVERITY_BADGE: Record<Severity, { label: string; color: string }> = {
@@ -17,13 +18,21 @@ function formatTime(isoString: string): string {
 
 export default function ThreatFeed() {
   const feedRef = useRef<HTMLDivElement>(null)
+  const { filters } = useThreat()
 
-  // Scroll to top on mount (newest alerts first)
+  const filteredAlerts = useMemo(() => {
+    return alerts.filter((a) => {
+      if (filters.region !== 'All' && a.region !== filters.region) return false
+      if (filters.severity !== 'All' && a.severity !== filters.severity) return false
+      return true
+    })
+  }, [filters])
+
   useEffect(() => {
     if (feedRef.current) {
       feedRef.current.scrollTop = 0
     }
-  }, [])
+  }, [filteredAlerts])
 
   return (
     <aside className="w-80 flex flex-col shrink-0 border-l border-neon-green/20 bg-black/90">
@@ -36,21 +45,24 @@ export default function ThreatFeed() {
       {/* Terminal prompt line */}
       <div className="px-3 py-1 border-b border-neon-green/5 shrink-0">
         <span className="text-neon-green/40 font-mono text-[10px]">
-          {'>'} MONITORING {alerts.length} ACTIVE ALERTS | REGION: GLOBAL
+          {'>'} SHOWING {filteredAlerts.length}/{alerts.length} ALERTS
         </span>
       </div>
 
       {/* Alert list */}
       <div ref={feedRef} className="flex-1 overflow-y-auto">
-        {alerts.map((alert, idx) => {
+        {filteredAlerts.length === 0 && (
+          <div className="p-4 text-neon-green/30 font-mono text-xs">
+            NO ALERTS MATCH CURRENT FILTERS
+          </div>
+        )}
+        {filteredAlerts.map((alert, idx) => {
           const badge = SEVERITY_BADGE[alert.severity]
           return (
             <div
               key={alert.id}
               className="px-3 py-2 border-b border-neon-green/5 hover:bg-neon-green/5 transition-colors cursor-default"
-              style={{
-                animationDelay: `${idx * 30}ms`,
-              }}
+              style={{ animationDelay: `${idx * 30}ms` }}
             >
               {/* Timestamp + severity badge */}
               <div className="flex items-center gap-2 mb-0.5">
@@ -78,7 +90,6 @@ export default function ThreatFeed() {
             </div>
           )
         })}
-        {/* Bottom padding */}
         <div className="h-4" />
       </div>
     </aside>

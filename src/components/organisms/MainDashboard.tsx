@@ -4,10 +4,11 @@ import { useThreat } from '@/context/ThreatContext'
 import GlobeComponent from '@/components/organisms/GlobeComponent'
 import TopBar from '@/components/organisms/TopBar'
 import ThreatFeed from '@/components/organisms/ThreatFeed'
+import FilterBar from '@/components/organisms/FilterBar'
 import type { ThreatZone } from '@/data/threats'
 
 export default function MainDashboard() {
-  const { selectedThreat, setSelectedThreat } = useThreat()
+  const { selectedThreat, setSelectedThreat, filteredThreats } = useThreat()
 
   const handleMarkerClick = (threat: ThreatZone) => {
     setSelectedThreat(threat)
@@ -27,6 +28,9 @@ export default function MainDashboard() {
       {/* Zone 1: Top Bar */}
       <TopBar />
 
+      {/* Filter bar */}
+      <FilterBar />
+
       {/* Zone 2: Main Content — Globe + Sidebar */}
       <section className="flex-1 flex overflow-hidden" style={{ minHeight: 0 }}>
         {/* Globe area */}
@@ -34,6 +38,7 @@ export default function MainDashboard() {
           <GlobeComponent
             selectedThreatId={selectedThreat?.id ?? null}
             onMarkerClick={handleMarkerClick}
+            visibleThreatIds={filteredThreats.map((t) => t.id)}
           />
           {/* Selected threat indicator */}
           {selectedThreat && (
