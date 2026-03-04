@@ -102,3 +102,31 @@ If there are still stories with `passes: false`, end your response normally (ano
 - Commit frequently
 - Keep CI green
 - Read the Codebase Patterns section in progress.txt before starting
+
+## Project-Specific Instructions
+
+### Tech Stack
+- Frontend: Next.js 14 (App Router), React 18, TypeScript 5, Tailwind CSS
+- Backend: Supabase (database, auth, edge functions, storage)
+- State: Zustand for client state, TanStack Query for server state
+- Deployment: Vercel
+
+### Quality Checks (MUST pass before every commit)
+- npx tsc --noEmit
+- npm run lint
+- npm test (if tests exist)
+
+### Conventions
+- All components in src/components/ using Atomic Design (atoms/molecules/organisms)
+- All API calls through lib/api.ts
+- All Supabase client usage through lib/supabase.ts
+- Use server components by default, client components only when needed
+- Mobile-first responsive design
+
+### V0 Usage
+
+For any UI component task, FIRST generate the component using:
+
+v0 generate "detailed description of what the component should look like and do"
+
+Then integrate the V0 output, adapt it to the project conventions, and verify it compiles.
