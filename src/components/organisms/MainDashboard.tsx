@@ -2,8 +2,8 @@
 
 import { useThreat } from '@/context/ThreatContext'
 import GlobeComponent from '@/components/organisms/GlobeComponent'
+import TopBar from '@/components/organisms/TopBar'
 import type { ThreatZone } from '@/data/threats'
-import { threats } from '@/data/threats'
 
 export default function MainDashboard() {
   const { selectedThreat, setSelectedThreat } = useThreat()
@@ -24,27 +24,7 @@ export default function MainDashboard() {
       }}
     >
       {/* Zone 1: Top Bar */}
-      <header className="glass-panel border-b border-neon-green border-opacity-20 px-6 py-3 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-4">
-          <span className="text-neon-green font-mono text-sm tracking-widest font-bold">
-            ▶ THREAT RADAR
-          </span>
-          <span className="text-neon-green text-opacity-40 text-xs font-mono">
-            GLOBAL CONFLICT MONITOR v2.4.1
-          </span>
-        </div>
-        <div className="flex items-center gap-6 text-xs font-mono text-neon-green text-opacity-60">
-          <span>
-            DEFCON: <span className="text-neon-yellow font-bold">3</span>
-          </span>
-          <span>
-            ACTIVE THREATS: <span className="text-neon-red font-bold">{threats.length}</span>
-          </span>
-          <span>
-            STATUS: <span className="text-neon-green font-bold">OPERATIONAL</span>
-          </span>
-        </div>
-      </header>
+      <TopBar />
 
       {/* Zone 2: Main Content — Globe + Sidebar */}
       <section className="flex-1 flex overflow-hidden" style={{ minHeight: 0 }}>
