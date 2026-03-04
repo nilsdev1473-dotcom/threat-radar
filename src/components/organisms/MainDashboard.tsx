@@ -10,7 +10,7 @@ import StatsPanel from '@/components/organisms/StatsPanel'
 import type { ThreatZone } from '@/data/threats'
 
 export default function MainDashboard() {
-  const { selectedThreat, setSelectedThreat, filteredThreats } = useThreat()
+  const { selectedThreat, setSelectedThreat, filteredThreats, showNatoAssets } = useThreat()
 
   const handleMarkerClick = (threat: ThreatZone) => {
     setSelectedThreat(threat)
@@ -41,6 +41,7 @@ export default function MainDashboard() {
             selectedThreatId={selectedThreat?.id ?? null}
             onMarkerClick={handleMarkerClick}
             visibleThreatIds={filteredThreats.map((t) => t.id)}
+            showNatoAssets={showNatoAssets}
           />
           {/* Threat detail card */}
           <ThreatDetailCard />

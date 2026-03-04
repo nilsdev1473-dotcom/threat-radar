@@ -23,6 +23,8 @@ interface ThreatContextValue {
   setSeverityFilter: (s: SeverityFilter) => void
   setThreatTypeFilter: (t: ThreatTypeFilter) => void
   filteredThreats: ThreatZone[]
+  showNatoAssets: boolean
+  toggleNatoAssets: () => void
 }
 
 const ThreatContext = createContext<ThreatContextValue | null>(null)
@@ -34,8 +36,10 @@ export function ThreatProvider({ children }: { children: ReactNode }) {
     severity: 'All',
     threatType: 'All',
   })
+  const [showNatoAssets, setShowNatoAssets] = useState(false)
 
   const clearSelection = useCallback(() => setSelectedThreatState(null), [])
+  const toggleNatoAssets = useCallback(() => setShowNatoAssets((v) => !v), [])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -79,6 +83,8 @@ export function ThreatProvider({ children }: { children: ReactNode }) {
         setSeverityFilter,
         setThreatTypeFilter,
         filteredThreats,
+        showNatoAssets,
+        toggleNatoAssets,
       }}
     >
       {children}

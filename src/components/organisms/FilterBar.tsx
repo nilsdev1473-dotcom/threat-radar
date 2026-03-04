@@ -55,7 +55,7 @@ function Pill({ label, active, onClick, color = '#00ff41' }: PillProps) {
 }
 
 export default function FilterBar() {
-  const { filters, setRegionFilter, setSeverityFilter, setThreatTypeFilter } = useThreat()
+  const { filters, setRegionFilter, setSeverityFilter, setThreatTypeFilter, showNatoAssets, toggleNatoAssets } = useThreat()
 
   return (
     <div className="glass-panel border-b border-neon-green/10 px-4 py-2 flex items-center gap-6 flex-wrap shrink-0">
@@ -114,6 +114,23 @@ export default function FilterBar() {
           ))}
         </div>
       </div>
+
+      <div className="w-px h-5 bg-neon-green/10 shrink-0" />
+
+      {/* NATO Assets toggle */}
+      <button
+        onClick={toggleNatoAssets}
+        className="px-3 py-0.5 font-mono text-[10px] tracking-widest border transition-all duration-150 flex items-center gap-1.5"
+        style={{
+          borderColor: showNatoAssets ? '#00bfff' : 'rgba(255,255,255,0.1)',
+          backgroundColor: showNatoAssets ? 'rgba(0,191,255,0.1)' : 'transparent',
+          color: showNatoAssets ? '#00bfff' : 'rgba(255,255,255,0.35)',
+          boxShadow: showNatoAssets ? '0 0 6px rgba(0,191,255,0.3)' : 'none',
+        }}
+      >
+        <span>◉</span>
+        <span>NATO ASSETS</span>
+      </button>
     </div>
   )
 }
