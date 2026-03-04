@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { threats } from '@/data/threats'
 
 const DEFCON_LEVEL = 3
@@ -27,6 +28,11 @@ function formatTimestamp(date: Date): string {
 
 export default function TopBar() {
   const [lastUpdated, setLastUpdated] = useState<string>('')
+  const [displayedThreats, setDisplayedThreats] = useState(0)
+  const [displayedCritical, setDisplayedCritical] = useState(0)
+
+  const activeThreats = threats.length
+  const criticalCount = threats.filter((t) => t.severity === 'critical').length
 
   useEffect(() => {
     setLastUpdated(formatTimestamp(new Date()))
@@ -36,8 +42,21 @@ export default function TopBar() {
     return () => clearInterval(interval)
   }, [])
 
-  const activeThreats = threats.length
-  const criticalCount = threats.filter((t) => t.severity === 'critical').length
+  // Count-up animation on mount
+  useEffect(() => {
+    let frame: number
+    let start: number | null = null
+    const duration = 800
+    const step = (ts: number) => {
+      if (!start) start = ts
+      const progress = Math.min((ts - start) / duration, 1)
+      setDisplayedThreats(Math.round(progress * activeThreats))
+      setDisplayedCritical(Math.round(progress * criticalCount))
+      if (progress < 1) frame = requestAnimationFrame(step)
+    }
+    frame = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(frame)
+  }, [activeThreats, criticalCount])
 
   return (
     <header className="glass-panel border-b border-neon-green/20 px-6 py-3 shrink-0">
@@ -103,12 +122,26 @@ export default function TopBar() {
         <div className="flex items-center gap-6 text-xs font-mono">
           <div className="flex flex-col items-center">
             <span className="text-neon-green/40 tracking-widest text-[10px]">ACTIVE</span>
-            <span className="text-neon-red font-bold text-lg leading-tight">{activeThreats}</span>
+            <motion.span
+              className="text-neon-red font-bold text-lg leading-tight tabular-nums"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {displayedThreats}
+            </motion.span>
           </div>
           <div className="w-px h-8 bg-neon-green/10" />
           <div className="flex flex-col items-center">
             <span className="text-neon-green/40 tracking-widest text-[10px]">CRITICAL</span>
-            <span className="text-neon-red font-bold text-lg leading-tight">{criticalCount}</span>
+            <motion.span
+              className="text-neon-red font-bold text-lg leading-tight tabular-nums"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {displayedCritical}
+            </motion.span>
           </div>
           <div className="w-px h-8 bg-neon-green/10" />
           <div className="flex flex-col items-center">

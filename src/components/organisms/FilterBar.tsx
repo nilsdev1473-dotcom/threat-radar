@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useThreat } from '@/context/ThreatContext'
 import type { RegionFilter, SeverityFilter, ThreatTypeFilter } from '@/context/ThreatContext'
 import type { Region, Severity, ThreatType } from '@/data/threats'
@@ -39,9 +40,12 @@ interface PillProps {
 
 function Pill({ label, active, onClick, color = '#00ff41' }: PillProps) {
   return (
-    <button
+    <motion.button
       onClick={onClick}
-      className="px-2 py-0.5 font-mono text-[10px] tracking-widest border transition-all duration-150"
+      whileTap={{ scale: 0.88 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+      className="px-2 py-0.5 font-mono text-[10px] tracking-widest border transition-colors duration-150"
       style={{
         borderColor: active ? color : 'rgba(255,255,255,0.1)',
         backgroundColor: active ? `${color}22` : 'transparent',
@@ -50,7 +54,7 @@ function Pill({ label, active, onClick, color = '#00ff41' }: PillProps) {
       }}
     >
       {label}
-    </button>
+    </motion.button>
   )
 }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { alerts } from '@/data/alerts'
 import { useThreat } from '@/context/ThreatContext'
 import type { Severity } from '@/data/threats'
@@ -59,10 +60,12 @@ export default function ThreatFeed() {
         {filteredAlerts.map((alert, idx) => {
           const badge = SEVERITY_BADGE[alert.severity]
           return (
-            <div
+            <motion.div
               key={alert.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.25, delay: idx * 0.03 }}
               className="px-3 py-2 border-b border-neon-green/5 hover:bg-neon-green/5 transition-colors cursor-default"
-              style={{ animationDelay: `${idx * 30}ms` }}
             >
               {/* Timestamp + severity badge */}
               <div className="flex items-center gap-2 mb-0.5">
@@ -87,7 +90,7 @@ export default function ThreatFeed() {
               <p className="text-neon-green/80 font-mono text-[11px] leading-relaxed">
                 {alert.description}
               </p>
-            </div>
+            </motion.div>
           )
         })}
         <div className="h-4" />

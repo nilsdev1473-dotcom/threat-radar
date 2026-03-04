@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { motion } from 'framer-motion'
 import {
   BarChart,
   Bar,
@@ -88,7 +89,13 @@ export default function StatsPanel() {
   const maxCasualties = Math.max(...top5.map((t) => t.casualties))
 
   return (
-    <section className="glass-panel border-t border-neon-green/20 px-4 py-2 shrink-0" style={{ height: '200px' }}>
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="glass-panel border-t border-neon-green/20 px-4 py-2 shrink-0"
+      style={{ height: '200px' }}
+    >
       <div className="flex items-center gap-2 mb-1">
         <span className="text-neon-green font-mono text-[9px] tracking-widest">▶ THREAT ANALYTICS</span>
       </div>
@@ -213,6 +220,6 @@ export default function StatsPanel() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

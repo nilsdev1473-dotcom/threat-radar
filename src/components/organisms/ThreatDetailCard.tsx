@@ -1,5 +1,6 @@
 'use client'
 
+import { motion, AnimatePresence } from 'framer-motion'
 import { useThreat } from '@/context/ThreatContext'
 import type { Severity } from '@/data/threats'
 
@@ -20,13 +21,20 @@ const NATO_STATUS_COLORS = {
 export default function ThreatDetailCard() {
   const { selectedThreat, clearSelection } = useThreat()
 
-  if (!selectedThreat) return null
-
-  const severityColor = SEVERITY_COLORS[selectedThreat.severity]
-  const natoColor = NATO_STATUS_COLORS[selectedThreat.natoStatus]
+  const severityColor = selectedThreat ? SEVERITY_COLORS[selectedThreat.severity] : '#00ff41'
+  const natoColor = selectedThreat ? NATO_STATUS_COLORS[selectedThreat.natoStatus] : '#00ff41'
 
   return (
-    <div className="absolute top-4 right-4 bottom-4 w-80 z-10 flex flex-col glass-panel border border-neon-green/20 overflow-hidden">
+    <AnimatePresence>
+      {selectedThreat && (
+    <motion.div
+      key={selectedThreat.id}
+      initial={{ x: 320, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 320, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+      className="absolute top-4 right-4 bottom-4 w-80 z-10 flex flex-col glass-panel border border-neon-green/20 overflow-hidden"
+    >
       {/* Header */}
       <div
         className="px-4 py-3 border-b flex items-start justify-between gap-2 shrink-0"
@@ -160,6 +168,8 @@ export default function ThreatDetailCard() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
