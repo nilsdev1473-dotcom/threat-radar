@@ -5,6 +5,7 @@ import GlobeComponent from '@/components/organisms/GlobeComponent'
 import TopBar from '@/components/organisms/TopBar'
 import ThreatFeed from '@/components/organisms/ThreatFeed'
 import FilterBar from '@/components/organisms/FilterBar'
+import ThreatDetailCard from '@/components/organisms/ThreatDetailCard'
 import type { ThreatZone } from '@/data/threats'
 
 export default function MainDashboard() {
@@ -40,12 +41,8 @@ export default function MainDashboard() {
             onMarkerClick={handleMarkerClick}
             visibleThreatIds={filteredThreats.map((t) => t.id)}
           />
-          {/* Selected threat indicator */}
-          {selectedThreat && (
-            <div className="absolute bottom-4 left-4 glass-panel px-3 py-2 text-xs font-mono text-neon-green">
-              SELECTED: {selectedThreat.name.toUpperCase()}
-            </div>
-          )}
+          {/* Threat detail card */}
+          <ThreatDetailCard />
         </div>
 
         {/* Threat Feed Sidebar */}
