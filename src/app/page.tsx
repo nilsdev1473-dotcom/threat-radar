@@ -1,3 +1,5 @@
+import GlobeComponent from '@/components/organisms/GlobeComponent'
+
 export default function Home() {
   return (
     <main
@@ -28,13 +30,10 @@ export default function Home() {
       </header>
 
       {/* Zone 2: Main Content — Globe + Sidebar */}
-      <section className="flex-1 flex overflow-hidden">
-        {/* Globe area placeholder */}
-        <div className="flex-1 flex items-center justify-center relative">
-          <div className="text-neon-green text-opacity-20 text-center font-mono">
-            <div className="text-6xl mb-4">◎</div>
-            <div className="text-sm tracking-widest">GLOBE INITIALIZING...</div>
-          </div>
+      <section className="flex-1 flex overflow-hidden" style={{ minHeight: 0 }}>
+        {/* Globe area */}
+        <div className="flex-1 relative overflow-hidden">
+          <GlobeComponent />
         </div>
 
         {/* Threat Feed Sidebar placeholder */}
