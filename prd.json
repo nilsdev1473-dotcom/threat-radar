@@ -14,7 +14,7 @@
         "All dependencies installed: react-globe.gl, recharts, framer-motion"
       ],
       "priority": 1,
-      "passes": false
+      "passes": true
     },
     {
       "id": 2,
@@ -28,7 +28,7 @@
         "At least 3 threat types represented: armed-conflict, naval, cyber, aerospace, nuclear"
       ],
       "priority": 1,
-      "passes": false
+      "passes": true
     },
     {
       "id": 3,
@@ -41,7 +41,7 @@
         "Alerts span multiple regions and severity levels"
       ],
       "priority": 1,
-      "passes": false
+      "passes": true
     },
     {
       "id": 4,
@@ -56,7 +56,7 @@
         "Globe background is black/dark space, not white"
       ],
       "priority": 2,
-      "passes": false
+      "passes": true
     },
     {
       "id": 5,
@@ -70,7 +70,7 @@
         "Markers are positioned correctly on the globe surface"
       ],
       "priority": 2,
-      "passes": false
+      "passes": true
     },
     {
       "id": 6,
@@ -84,7 +84,7 @@
         "No TypeScript errors in event handlers"
       ],
       "priority": 2,
-      "passes": false
+      "passes": true
     },
     {
       "id": 7,
@@ -99,7 +99,7 @@
         "Glassmorphism panel styling applied"
       ],
       "priority": 2,
-      "passes": false
+      "passes": true
     },
     {
       "id": 8,
@@ -115,7 +115,7 @@
         "Panel is scrollable"
       ],
       "priority": 2,
-      "passes": false
+      "passes": true
     },
     {
       "id": 9,
@@ -131,7 +131,7 @@
         "All filters can be combined (AND logic)"
       ],
       "priority": 3,
-      "passes": false
+      "passes": true
     },
     {
       "id": 10,
@@ -147,7 +147,7 @@
         "Card does not overlap the top bar"
       ],
       "priority": 3,
-      "passes": false
+      "passes": true
     },
     {
       "id": 11,
@@ -162,7 +162,7 @@
         "No Recharts TypeScript errors"
       ],
       "priority": 3,
-      "passes": false
+      "passes": true
     },
     {
       "id": 12,
@@ -176,7 +176,7 @@
         "Ranking is sorted correctly (critical first, then by casualties)"
       ],
       "priority": 3,
-      "passes": false
+      "passes": true
     },
     {
       "id": 13,
@@ -191,7 +191,7 @@
         "Toggle button shows active state when overlay is on"
       ],
       "priority": 4,
-      "passes": false
+      "passes": true
     },
     {
       "id": 14,
@@ -207,7 +207,7 @@
         "Animations respect prefers-reduced-motion"
       ],
       "priority": 4,
-      "passes": false
+      "passes": true
     }
   ]
 }

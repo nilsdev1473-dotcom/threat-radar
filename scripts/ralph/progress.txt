@@ -1,0 +1,27 @@
+## Codebase Patterns
+- Next.js 14 App Router: all pages in src/app/, layouts in layout.tsx
+- Tailwind custom colors: neon-green (#00ff41), neon-red (#ff2d2d), dark-navy (#0a0e1a), neon-orange, neon-yellow, neon-blue, neon-cyan
+- Glass panel style via .glass-panel CSS class (defined in globals.css)
+- Custom scrollbar, blink animation, and pulse-ring animation defined in globals.css
+- node_modules was previously tracked in git — .gitignore was added and node_modules removed from tracking in Story 1
+- Quality checks: `npx tsc --noEmit`, `npm run lint`, `npm test` (echo no tests)
+- react-globe.gl requires SSR workaround (dynamic import with ssr:false) since it uses browser APIs
+- All context/state in src/context/ThreatContext.tsx — single source of truth for selectedThreat, filters, filteredThreats, showNatoAssets
+- All components in src/components/organisms/ (no atoms/molecules used)
+- Mock data in src/data/ — threats.ts (12 zones), alerts.ts (25 alerts), military.ts (15 bases + 5 carriers)
+- Globe uses combined pointsData array for both threats and NATO assets (discriminated by pointType field)
+- Framer Motion used for: detail card slide-in (AnimatePresence), alert stagger, pill spring, stats fade-in, count-up
+- prefers-reduced-motion respected via CSS media query in globals.css
+- react-globe.gl ringColor callback types need explicit `(d: object)` annotation to avoid implicit any TS error
+- AnimatePresence must wrap conditional renders for exit animations to fire in Framer Motion
+---
+
+## 2026-03-04 - Stories 1-14 (All Complete)
+- What was implemented: Full threat-radar dashboard from scratch. Next.js 14 + TypeScript + Tailwind CSS setup, 12 threat zone mock data with timelines, 25 alert mock data with regions, 15 NATO bases + 5 carrier groups, 3D globe (react-globe.gl), pulsing markers, clickable markers with context, DEFCON top bar, terminal-style feed, filter bar (region/severity/type + NATO toggle), glassmorphism detail card, Recharts stats panel (bar/donut/line/top5), Framer Motion animations throughout.
+- Files changed: All src/ files, package.json, config files
+- **Learnings for future iterations:**
+  - prd.json is at project root, not in scripts/ralph/
+  - node_modules were already committed — needed `git rm -r --cached node_modules/` + .gitignore
+  - Added region field to Alert interface for enabling region filtering in ThreatFeed
+  - Combined points array (threats + military) in GlobeComponent via pointType discriminator avoids multiple globe instances
+---
