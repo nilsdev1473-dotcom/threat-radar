@@ -6,6 +6,7 @@ import TopBar from '@/components/organisms/TopBar'
 import ThreatFeed from '@/components/organisms/ThreatFeed'
 import FilterBar from '@/components/organisms/FilterBar'
 import ThreatDetailCard from '@/components/organisms/ThreatDetailCard'
+import StatsPanel from '@/components/organisms/StatsPanel'
 import type { ThreatZone } from '@/data/threats'
 
 export default function MainDashboard() {
@@ -50,25 +51,7 @@ export default function MainDashboard() {
       </section>
 
       {/* Zone 3: Stats Dashboard */}
-      <section className="glass-panel border-t border-neon-green border-opacity-20 h-48 px-6 py-4 shrink-0">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-neon-green font-mono text-xs tracking-widest">
-            ▶ THREAT ANALYTICS
-          </span>
-        </div>
-        <div className="grid grid-cols-4 gap-4 h-28">
-          {['BY REGION', 'BY SEVERITY', '30-DAY TREND', 'TOP ZONES'].map((label) => (
-            <div
-              key={label}
-              className="border border-neon-green border-opacity-10 rounded flex items-center justify-center"
-            >
-              <span className="text-neon-green text-opacity-20 text-xs font-mono tracking-wider">
-                {label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <StatsPanel />
     </main>
   )
 }
