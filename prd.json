@@ -1,0 +1,213 @@
+{
+  "projectName": "threat-radar",
+  "branchName": "feature/initial-build",
+  "userStories": [
+    {
+      "id": 1,
+      "title": "Project setup and layout skeleton",
+      "description": "Initialize Next.js 14 project with TypeScript, Tailwind CSS, and install all required dependencies: react-globe.gl (or three), recharts, framer-motion. Configure Tailwind with dark theme defaults (black/dark navy). Create the root layout with a black background, monospace font for data elements, and a subtle CSS grid background pattern. Set up the main page with three zones: top bar, center globe+sidebar, bottom stats.",
+      "acceptanceCriteria": [
+        "Next.js 14 app with TypeScript compiles without errors",
+        "Tailwind configured with custom colors: neon green (#00ff41), neon red (#ff2d2d), dark navy (#0a0e1a)",
+        "Global layout renders with black background and grid pattern",
+        "Three layout zones visible: top bar, main content area, stats section",
+        "All dependencies installed: react-globe.gl, recharts, framer-motion"
+      ],
+      "priority": 1,
+      "passes": false
+    },
+    {
+      "id": 2,
+      "title": "Mock data layer for all threat zones",
+      "description": "Create a TypeScript data file with realistic mock data for all 12 active conflict zones: Ukraine, Gaza, Red Sea, South China Sea, Taiwan Strait, Sahel, Sudan, Myanmar, Syria, Somalia, Yemen, Korean Peninsula. Each zone has: id, name, lat, lng, severity (critical/high/medium/low), region, threat types, involved parties, estimated casualties, duration, NATO response status, and a mini timeline array of 3-5 recent events.",
+      "acceptanceCriteria": [
+        "File src/data/threats.ts exports a typed array of 12 threat zones",
+        "Each zone has all required fields: id, name, lat, lng, severity, region, threatTypes, involvedParties, casualties, duration, natoStatus, timeline",
+        "Severity values are one of: critical, high, medium, low",
+        "Region values cover: Europe, Middle East, Asia-Pacific, Africa",
+        "At least 3 threat types represented: armed-conflict, naval, cyber, aerospace, nuclear"
+      ],
+      "priority": 1,
+      "passes": false
+    },
+    {
+      "id": 3,
+      "title": "Mock data for threat feed alerts and military assets",
+      "description": "Create mock data for: (a) threat feed alerts — 20+ scrolling alerts each with timestamp, location, severity, and short description; (b) military assets — ~15 NATO base locations (lat/lng, name, country) and ~5 carrier strike group positions (lat/lng, name, vessel). Export all from src/data/.",
+      "acceptanceCriteria": [
+        "src/data/alerts.ts exports 20+ typed alert objects with timestamp, location, severity, description",
+        "src/data/military.ts exports natoBase and carrierGroup arrays with lat/lng and labels",
+        "All data is TypeScript typed with exported interfaces",
+        "Alerts span multiple regions and severity levels"
+      ],
+      "priority": 1,
+      "passes": false
+    },
+    {
+      "id": 4,
+      "title": "3D globe component base render",
+      "description": "Build a GlobeComponent using react-globe.gl (or Three.js fallback). Render a dark-themed Earth with glowing country borders (neon green, low opacity). The globe should fill its container, auto-rotate slowly, and support mouse drag to rotate and scroll to zoom. No markers yet — just the globe itself styled to match the dark military aesthetic.",
+      "acceptanceCriteria": [
+        "Globe renders inside a dark container without errors",
+        "Country borders visible in neon green or dim green color",
+        "Auto-rotation works on load",
+        "Mouse drag rotates the globe",
+        "Scroll wheel zooms in/out",
+        "Globe background is black/dark space, not white"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": 5,
+      "title": "Threat zone markers on globe",
+      "description": "Add the 12 threat zone markers to the globe as pulsing circles. Critical = red, high = orange, medium = yellow, low = green. Use CSS animation or Three.js animation to create a pulsing ring effect for each marker. Marker size scales with severity. Markers are visible above the globe surface.",
+      "acceptanceCriteria": [
+        "All 12 threat zones render as colored circles on the globe at correct lat/lng",
+        "Color matches severity: critical=red, high=orange, medium=yellow, low=green",
+        "Visible pulsing/ripple animation on each marker",
+        "Marker size reflects severity (critical largest)",
+        "Markers are positioned correctly on the globe surface"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": 6,
+      "title": "Clickable globe markers and state management",
+      "description": "Make threat zone markers clickable on the globe. When clicked, set selectedThreat state in the parent page. Use React context or prop drilling to share selectedThreat across the app. Clicking the same marker again or pressing Escape deselects it. The globe should briefly highlight (glow brighter) the clicked marker.",
+      "acceptanceCriteria": [
+        "Clicking a globe marker updates selectedThreat state",
+        "Selected marker visually highlights (brighter/larger)",
+        "Clicking same marker or Escape clears selection",
+        "selectedThreat is accessible from the detail card component",
+        "No TypeScript errors in event handlers"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": 7,
+      "title": "Top bar with DEFCON indicator and global stats",
+      "description": "Build the TopBar component: DEFCON-style 1-5 indicator (display DEFCON 3 from mock data) with color-coded blocks (1=red, 2=orange, 3=yellow, 4=green, 5=blue), total active threats count badge, last updated timestamp that refreshes every 30 seconds. Use glassmorphism panel style (dark semi-transparent background, subtle border). Monospace font for all data values.",
+      "acceptanceCriteria": [
+        "TopBar renders at the top of the page",
+        "DEFCON indicator shows 5 blocks, current level highlighted, others dimmed",
+        "DEFCON 3 shows yellow as the active block",
+        "Active threats count displays correctly from mock data",
+        "Last updated timestamp updates every 30 seconds",
+        "Glassmorphism panel styling applied"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": 8,
+      "title": "Threat feed side panel (terminal style)",
+      "description": "Build the ThreatFeed sidebar panel. Displays a scrolling list of alerts from mock data. Each alert shows: timestamp in HH:MM:SS, location name, severity badge (color-coded), and description text. Styled as a military terminal: black background, neon green monospace text, blinking cursor effect at the top. Panel auto-scrolls to newest alerts. New alerts appear at the top with a flash animation.",
+      "acceptanceCriteria": [
+        "ThreatFeed panel renders to the right of the globe",
+        "All 20+ mock alerts are listed",
+        "Each alert shows timestamp, location, severity badge, description",
+        "Black background with green monospace text styling",
+        "Severity badges are color-coded (red/orange/yellow/green)",
+        "Blinking cursor element present at panel top",
+        "Panel is scrollable"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": 9,
+      "title": "Filter controls bar",
+      "description": "Build a FilterBar component below the top bar. Contains three filter groups: Region (All, Europe, Middle East, Asia-Pacific, Africa, Americas), Severity (All, Critical, High, Medium, Low), Threat Type (All, Armed Conflict, Naval, Cyber, Aerospace, Nuclear). Filters are toggleable pill/button style with neon green active state. Filtering updates visible markers on the globe and alerts in the feed panel simultaneously.",
+      "acceptanceCriteria": [
+        "FilterBar renders with all three filter groups",
+        "Active filter highlighted in neon green",
+        "Selecting a region hides globe markers not in that region",
+        "Selecting a severity hides globe markers below that level",
+        "Selecting a threat type filters to matching zones only",
+        "Threat feed panel also filters to match active filters",
+        "All filters can be combined (AND logic)"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": 10,
+      "title": "Threat detail card modal",
+      "description": "Build ThreatDetailCard component that appears when a globe marker is clicked. Shows: zone name header, severity badge, threat summary paragraph, involved parties list, estimated casualties, duration active, NATO response status, and a vertical mini timeline (3-5 events with dates). Styled as a glassmorphism panel that slides in from the right or overlays the globe. Has an X close button.",
+      "acceptanceCriteria": [
+        "Detail card renders when selectedThreat is set",
+        "Card disappears when closed or Escape pressed",
+        "Displays: name, severity, summary, involved parties, casualties, duration, NATO status",
+        "Timeline shows 3-5 events in chronological order",
+        "Glassmorphism styling with neon accent borders",
+        "Close button functional",
+        "Card does not overlap the top bar"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": 11,
+      "title": "Stats dashboard — bar chart and donut chart",
+      "description": "Build the StatsPanel component in the bottom section. Use Recharts to render: (1) a bar chart of threat count by region with dark theme (black background, neon green bars, white axis labels), (2) a donut chart showing severity distribution (critical/high/medium/low) with matching severity colors. Both charts derive data from the mock threats array.",
+      "acceptanceCriteria": [
+        "StatsPanel renders below the globe+sidebar section",
+        "Bar chart shows threat count for each region",
+        "Bar chart has dark theme styling (no white background)",
+        "Donut chart shows severity distribution with correct colors",
+        "Charts use data derived from the mock threats data",
+        "No Recharts TypeScript errors"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": 12,
+      "title": "Stats dashboard — trend line and top 5 ranking",
+      "description": "Add to StatsPanel: (3) a 30-day trend line chart (Recharts LineChart) using mock daily threat count data showing an upward trend, styled with neon green line on dark background; (4) a top 5 most critical zones ranking list — sorted by severity then by casualty count, displayed as numbered rows with severity color indicator, zone name, and a mini severity bar.",
+      "acceptanceCriteria": [
+        "30-day trend line renders with mock data (30 data points)",
+        "Line chart has dark theme, neon green line",
+        "Top 5 ranking list shows 5 zones in order",
+        "Each ranking row has: rank number, severity color dot, zone name, severity bar",
+        "Ranking is sorted correctly (critical first, then by casualties)"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": 13,
+      "title": "Military assets overlay toggle",
+      "description": "Add a toggle button to show/hide military assets on the globe. When enabled: render NATO base locations as blue dots with hover tooltips showing base name and country; render carrier strike group positions as a ship/diamond icon in cyan. Toggle state is stored in React state. Button is in the top bar or filter bar area, clearly labeled 'NATO Assets'.",
+      "acceptanceCriteria": [
+        "Toggle button labeled 'NATO Assets' visible in UI",
+        "Clicking toggle shows/hides military asset markers on globe",
+        "NATO bases appear as blue dots at correct coordinates",
+        "Carrier groups appear as distinct icons (different from base dots)",
+        "Hovering a base/carrier shows name label",
+        "Toggle button shows active state when overlay is on"
+      ],
+      "priority": 4,
+      "passes": false
+    },
+    {
+      "id": 14,
+      "title": "Framer Motion animations and polish",
+      "description": "Add Framer Motion animations throughout: (1) detail card slides in from right on open, fades out on close; (2) threat feed alerts animate in with a fade+slide when new ones appear; (3) top bar stats numbers count up on first render; (4) filter pills have a spring scale animation on click; (5) stats panel charts fade in on scroll into view. Ensure no animation causes layout shift.",
+      "acceptanceCriteria": [
+        "Detail card has slide-in/fade-out animation",
+        "Threat feed items animate in smoothly",
+        "DEFCON/stats numbers animate on mount",
+        "Filter pill clicks have tactile spring animation",
+        "Stats charts animate into view",
+        "No layout shifts or jank during animations",
+        "Animations respect prefers-reduced-motion"
+      ],
+      "priority": 4,
+      "passes": false
+    }
+  ]
+}
