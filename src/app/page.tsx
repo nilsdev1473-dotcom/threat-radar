@@ -1,0 +1,78 @@
+export default function Home() {
+  return (
+    <main
+      className="min-h-screen bg-black flex flex-col"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+      }}
+    >
+      {/* Zone 1: Top Bar */}
+      <header className="glass-panel border-b border-neon-green border-opacity-20 px-6 py-3 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-4">
+          <span className="text-neon-green font-mono text-sm tracking-widest font-bold">
+            ▶ THREAT RADAR
+          </span>
+          <span className="text-neon-green text-opacity-40 text-xs font-mono">
+            GLOBAL CONFLICT MONITOR v2.4.1
+          </span>
+        </div>
+        <div className="flex items-center gap-6 text-xs font-mono text-neon-green text-opacity-60">
+          <span>DEFCON: <span className="text-neon-yellow font-bold">3</span></span>
+          <span>ACTIVE THREATS: <span className="text-neon-red font-bold">12</span></span>
+          <span>STATUS: <span className="text-neon-green font-bold">OPERATIONAL</span></span>
+        </div>
+      </header>
+
+      {/* Zone 2: Main Content — Globe + Sidebar */}
+      <section className="flex-1 flex overflow-hidden">
+        {/* Globe area placeholder */}
+        <div className="flex-1 flex items-center justify-center relative">
+          <div className="text-neon-green text-opacity-20 text-center font-mono">
+            <div className="text-6xl mb-4">◎</div>
+            <div className="text-sm tracking-widest">GLOBE INITIALIZING...</div>
+          </div>
+        </div>
+
+        {/* Threat Feed Sidebar placeholder */}
+        <aside className="w-80 glass-panel border-l border-neon-green border-opacity-20 flex flex-col shrink-0">
+          <div className="p-3 border-b border-neon-green border-opacity-10">
+            <span className="text-neon-green font-mono text-xs tracking-widest">
+              ■ LIVE THREAT FEED
+            </span>
+            <span className="cursor-blink text-neon-green ml-1">_</span>
+          </div>
+          <div className="flex-1 p-3 overflow-y-auto">
+            <p className="text-neon-green text-opacity-30 text-xs font-mono">
+              FEED LOADING...
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      {/* Zone 3: Stats Dashboard */}
+      <section className="glass-panel border-t border-neon-green border-opacity-20 h-48 px-6 py-4 shrink-0">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-neon-green font-mono text-xs tracking-widest">
+            ▶ THREAT ANALYTICS
+          </span>
+        </div>
+        <div className="grid grid-cols-4 gap-4 h-28">
+          {['BY REGION', 'BY SEVERITY', '30-DAY TREND', 'TOP ZONES'].map((label) => (
+            <div
+              key={label}
+              className="border border-neon-green border-opacity-10 rounded flex items-center justify-center"
+            >
+              <span className="text-neon-green text-opacity-20 text-xs font-mono tracking-wider">
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  )
+}
