@@ -3,6 +3,7 @@
 import { useThreat } from '@/context/ThreatContext'
 import GlobeComponent from '@/components/organisms/GlobeComponent'
 import TopBar from '@/components/organisms/TopBar'
+import ThreatFeed from '@/components/organisms/ThreatFeed'
 import type { ThreatZone } from '@/data/threats'
 
 export default function MainDashboard() {
@@ -42,18 +43,8 @@ export default function MainDashboard() {
           )}
         </div>
 
-        {/* Threat Feed Sidebar placeholder */}
-        <aside className="w-80 glass-panel border-l border-neon-green border-opacity-20 flex flex-col shrink-0">
-          <div className="p-3 border-b border-neon-green border-opacity-10">
-            <span className="text-neon-green font-mono text-xs tracking-widest">
-              ■ LIVE THREAT FEED
-            </span>
-            <span className="cursor-blink text-neon-green ml-1">_</span>
-          </div>
-          <div className="flex-1 p-3 overflow-y-auto">
-            <p className="text-neon-green text-opacity-30 text-xs font-mono">FEED LOADING...</p>
-          </div>
-        </aside>
+        {/* Threat Feed Sidebar */}
+        <ThreatFeed />
       </section>
 
       {/* Zone 3: Stats Dashboard */}
