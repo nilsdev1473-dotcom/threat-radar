@@ -44,6 +44,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Grid pattern background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,107,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,107,0,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
@@ -64,6 +72,17 @@ body {
   100% { top: 100%; }
 }
 
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,107,0,0.15); }
+  50% { box-shadow: 0 0 20px rgba(255,107,0,0.3); }
+}
+
+@keyframes data-refresh {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
 .animate-pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -80,13 +99,21 @@ body {
   animation: scan-line 4s linear infinite;
 }
 
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-data-refresh {
+  animation: data-refresh 0.6s ease-in-out;
+}
+
 .globe-container {
   position: relative;
   width: 100%;
-  height: 50vh;
-  min-height: 300px;
+  height: 55vh;
+  min-height: 320px;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #111113 0%, #0A0A0B 70%);
+  background: radial-gradient(ellipse at center, #0d0d10 0%, #0A0A0B 70%);
 }
 
 .globe-container::after {
@@ -94,8 +121,50 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, #0A0A0B 80%);
+  background: radial-gradient(ellipse at center, transparent 35%, #0A0A0B 75%);
   z-index: 2;
+}
+
+/* Scan line overlay on globe */
+.globe-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.globe-scanline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+  opacity: 0.15;
+  animation: scan-line 4s linear infinite;
+}
+
+/* Glass morphism panel */
+.glass-panel {
+  background: rgba(17, 17, 19, 0.75);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 107, 0, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.glass-panel-elevated {
+  background: rgba(26, 26, 29, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 107, 0, 0.06);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .threat-card {
@@ -103,12 +172,13 @@ body {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
 }
 
 .threat-card:hover {
   border-color: var(--accent);
   box-shadow: 0 0 20px var(--border-glow);
+  transform: translateY(-1px);
 }
 
 .threat-card-critical {
@@ -129,4 +199,12 @@ body {
 
 .mono {
   font-family: 'JetBrains Mono', monospace;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
