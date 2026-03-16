@@ -1,0 +1,54 @@
+{
+  "name": "Threat Radar",
+  "description": "Mobile-first global threat intelligence dashboard with 3D globe visualization, live threat feeds, and military/casualty assessment panels. Bloomberg terminal meets intelligence agency aesthetic.",
+  "stories": [
+    {
+      "id": 1,
+      "title": "Dark Bloomberg Shell",
+      "description": "App shell with classification banner, status bar with blinking indicators, and dark terminal background. Mobile-first layout.",
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "title": "3D Threat Globe",
+      "description": "Interactive 3D globe with pulsing threat markers at conflict locations. Auto-rotates. Dark earth texture. Client-only render.",
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "title": "Threat Data Layer",
+      "description": "Mock threat dataset with 8+ global threats including coordinates, severity, type, military assets, casualties, and news updates.",
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "title": "Active Threats Feed",
+      "description": "Scrollable card list below globe showing active threats with severity badges, location, type, and casualty count. Staggered entrance animation.",
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "title": "Threat Detail Panel",
+      "description": "Expandable detail view for each threat showing military assessment, casualty breakdown, timeline, and related news. Slide-up animation.",
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "title": "News Ticker",
+      "description": "Horizontal scrolling news ticker at top with latest threat intelligence updates. Bloomberg-style monospace text.",
+      "status": "pending"
+    },
+    {
+      "id": 7,
+      "title": "Status Indicators",
+      "description": "DEFCON-style global threat level indicator, active threat count, last updated timestamp with blinking dot.",
+      "status": "pending"
+    },
+    {
+      "id": 8,
+      "title": "Animations & Polish",
+      "description": "Framer Motion transitions on all sections. Pulsing markers, glowing borders on critical threats, stagger animations on cards.",
+      "status": "pending"
+    }
+  ]
+}
