@@ -10,11 +10,24 @@ interface LiveNewsItem {
   url: string;
   timestamp: string;
   country: string;
+  region: string;
 }
 
 interface ApiResponse {
   liveNews: LiveNewsItem[];
   lastUpdated: string;
+}
+
+const REGION_COLORS: Record<string, string> = {
+  "Five Eyes": "#00B4FF",
+  "Europe": "#FFB800",
+  "Indo-Pacific": "#FF2D2D",
+  "Middle East": "#FF6B00",
+  "Global": "#888888",
+};
+
+function getRegionColor(region: string): string {
+  return REGION_COLORS[region] ?? "#888888";
 }
 
 export default function LiveNewsFeed() {
@@ -79,35 +92,53 @@ export default function LiveNewsFeed() {
       </div>
 
       <div className="space-y-2 max-h-[300px] overflow-y-auto hide-scrollbar">
-        {news.slice(0, 10).map((item, i) => (
-          <motion.a
-            key={i}
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.04 }}
-            className="flex items-start gap-3 p-3 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--accent)] transition-all group cursor-pointer"
-          >
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-[var(--text-primary)] leading-relaxed line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
-                {item.headline}
-              </p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="mono text-[10px] text-[var(--text-muted)]">
-                  {item.source}
-                </span>
-                {item.country && (
-                  <span className="mono text-[10px] text-[var(--text-muted)]">
-                    • {item.country}
+        {news.slice(0, 10).map((item, i) => {
+          const regionColor = getRegionColor(item.region);
+          return (
+            <motion.a
+              key={i}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.04 }}
+              className="flex items-start gap-3 p-3 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] hover:border-[var(--accent)] transition-all group cursor-pointer"
+              style={{ borderLeft: `3px solid ${regionColor}` }}
+            >
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-[var(--text-primary)] leading-relaxed line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
+                  {item.headline}
+                </p>
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span
+                    className="mono text-[10px] hover:underline"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    {item.source}
                   </span>
-                )}
+                  {item.country && (
+                    <span className="mono text-[10px] text-[var(--text-muted)]">
+                      • {item.country}
+                    </span>
+                  )}
+                  {item.region && (
+                    <span
+                      className="mono text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase"
+                      style={{
+                        color: regionColor,
+                        backgroundColor: regionColor + "26",
+                      }}
+                    >
+                      {item.region}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-            <ExternalLink size={12} className="text-[var(--text-muted)] mt-1 shrink-0 group-hover:text-[var(--accent)] transition-colors" />
-          </motion.a>
-        ))}
+              <ExternalLink size={12} className="text-[var(--text-muted)] mt-1 shrink-0 group-hover:text-[var(--accent)] transition-colors" />
+            </motion.a>
+          );
+        })}
       </div>
     </div>
   );

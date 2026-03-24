@@ -20,22 +20,35 @@ export default function ThreatDetail({ threat, onClose }: ThreatDetailProps) {
     <AnimatePresence>
       {threat && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop — frosted glass */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/70 z-40"
+            className="fixed inset-0 z-40"
+            style={{
+              background: "rgba(0,0,0,0.60)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
           />
 
-          {/* Glass Panel */}
+          {/* Apple Glassmorphism Panel */}
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-0 left-0 right-0 z-50 glass-panel rounded-t-2xl max-h-[88vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl max-h-[88vh] overflow-y-auto"
+            style={{
+              background: "rgba(17,17,19,0.75)",
+              backdropFilter: "blur(40px) saturate(180%)",
+              WebkitBackdropFilter: "blur(40px) saturate(180%)",
+              borderTop: "1px solid rgba(255,255,255,0.08)",
+              boxShadow:
+                "0 -10px 60px rgba(0,0,0,0.5), 0 -2px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
+            }}
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1 sticky top-0 z-10">
@@ -89,7 +102,7 @@ export default function ThreatDetail({ threat, onClose }: ThreatDetailProps) {
                 {threat.summary}
               </p>
 
-              {/* Stats Grid — glass cards */}
+              {/* Stats Grid — large mono numbers */}
               <div className="grid grid-cols-2 gap-3 mb-5">
                 <StatBox
                   icon={<Users size={14} />}
@@ -231,12 +244,26 @@ function StatBox({
   color: string;
 }) {
   return (
-    <div className="glass-panel-elevated rounded-lg p-3">
-      <div className="flex items-center gap-1.5 mb-1" style={{ color }}>
+    <div
+      className="rounded-lg p-3"
+      style={{
+        background: "rgba(26,26,29,0.6)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(255,255,255,0.05)",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+      }}
+    >
+      <div className="flex items-center gap-1.5 mb-1.5" style={{ color }}>
         {icon}
         <span className="mono text-[10px] uppercase">{label}</span>
       </div>
-      <span className="mono text-lg font-bold" style={{ color }}>
+      <span
+        className="mono text-3xl font-bold block"
+        style={{
+          color,
+          textShadow: `0 0 20px color-mix(in srgb, ${color} 25%, transparent)`,
+        }}
+      >
         {value}
       </span>
     </div>
